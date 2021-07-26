@@ -108,6 +108,7 @@ try {
       else {
         playlist.videos.push({ _id, image, avatar, title, author, views, videoId });
       }
+      console.log(playlist)
     playlist = await playlist.save();
     res.status(201).send(playlist);
     } else{

@@ -41,25 +41,27 @@ router.route("/:userId")
 })
 .post(async (req, res) => {
 try {
-    const { _id, image, avatar, title, author, views } = req.body;
-    console.log({ _id, image, avatar, title, author, views })
+    const { _id, image, avatar, title, author, views, videoId } = req.body;
     const {userId}= req.params;
     let watchLater = await WatchLater.findOne({ userId });
 
     if (watchLater) {
-      let videoIndex = watchLater.videos.findIndex(video => video._id === _id);
-
-      if (videoIndex > -1) {
-        res.status(500).send("video already exists")
+      console.log("watchlater",watchLater.videos)
+      let videoIndex = watchLater.videos.find(video => video._id == _id);
+      console.log(videoIndex)
+      // console.log("videoIndex", videoIndex)
+      if (videoIndex != undefined) {
+        return res.status(500).send("video already exists")
       } else {
-        watchLater.videos.push({ _id, image, avatar, title, author, views });
+        watchLater.videos.push({ _id, image, avatar, title, author, views, videoId });
       }
       watchLater = await watchLater.save();
+      // console.log(watchLater)
       return res.status(201).send(watchLater);
     } else {
       const newWatchLater = await WatchLater.create({
         userId,
-        videos:[{_id: _id, image:image, avatar:avatar, title:title, author:author, views:views}]
+        videos:[{_id: _id, image:image, avatar:avatar, title:title, author:author, views:views, videoId: videoId}]
       });
       return res.status(201).send(newWatchLater);
     }

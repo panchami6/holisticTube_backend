@@ -31,6 +31,10 @@ const WatchLaterSchema = new Schema({
       views:{
         type:String,
         ref:"Videos"
+      },
+      videoId:{
+        type:String,
+        ref:"Videos"
       }
 
     }
