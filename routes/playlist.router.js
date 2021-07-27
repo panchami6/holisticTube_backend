@@ -88,9 +88,9 @@ router.route('/:userId/:playlistId')
 router.route("/:userId/:playlistId/:name")
 .get(async (req, res) => {
 	try{
-		const { _id } = req.params;
-    let videos = await Videos.findById(_id);
-    videos.__v = undefined;
+		const { playlistId } = req.params;
+    let playlist = await Playlist.findById(playlistId);
+    let videos = playlist.videos
 		res.json({success: true, videos});
 	}catch(error){
 		console.log(error);

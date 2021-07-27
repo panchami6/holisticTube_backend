@@ -46,17 +46,13 @@ try {
     let watchLater = await WatchLater.findOne({ userId });
 
     if (watchLater) {
-      console.log("watchlater",watchLater.videos)
       let videoIndex = watchLater.videos.find(video => video._id == _id);
-      console.log(videoIndex)
-      // console.log("videoIndex", videoIndex)
       if (videoIndex != undefined) {
         return res.status(500).send("video already exists")
       } else {
         watchLater.videos.push({ _id, image, avatar, title, author, views, videoId });
       }
       watchLater = await watchLater.save();
-      // console.log(watchLater)
       return res.status(201).send(watchLater);
     } else {
       const newWatchLater = await WatchLater.create({
