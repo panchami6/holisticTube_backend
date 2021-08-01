@@ -108,7 +108,6 @@ try {
       else {
         playlist.videos.push({ _id, image, avatar, title, author, views, videoId });
       }
-      console.log(playlist)
     playlist = await playlist.save();
     res.status(201).send(playlist);
     } else{
@@ -123,11 +122,13 @@ router.route("/:userId/:playlistId/:videoId")
 .delete( async(req, res) => {
   try{
     const {videoId, playlistId}= req.params;
+
     const playlist = await Playlist.findById(playlistId)
     const videoExists = playlist.videos.find(
       (video) => video.videoId == videoId
     )
     if(videoExists){
+      console.log(videoId, "removed")
       playlist.videos.remove(videoExists)
     }
     let playlistSaved = await playlist.save();
